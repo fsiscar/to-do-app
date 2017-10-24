@@ -15,8 +15,9 @@ function onReady(){
     // create a new input
     let checkbox=document.createElement('input');
 
-    // set the input's type to checkbox
+    // set the input's type to checkbox and class to todoItemCheckBox
     checkbox.type = "checkbox";
+    checkbox.className = "todoItemCheckBox";
 
     // set the title;
     newLi.textContent = title;
@@ -32,6 +33,20 @@ function onReady(){
 
   });
 };
+
+function deleteChecked(){
+  const toDoList = document.getElementById('toDoList');
+  const checkBoxes = document.getElementsByClassName('todoItemCheckBox');
+  console.log('checkBoxes=',checkBoxes,'checkBoxes.length',checkBoxes.length);
+
+  for (var i =0;i < checkBoxes.length;i++){
+    console.log("oi=",i);
+    if (checkBoxes[i].checked){
+      toDoList.removeChild(checkBoxes[i].parentNode);
+      i--;// counter adjusted due to number of boxes was decreased by 1 by above line
+    }
+  }
+}
 
 window.onload = function (){
   alert("The window has loaded!");
