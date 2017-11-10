@@ -1,11 +1,11 @@
 function onReady(){
   const toDos = [];
   const addToDoForm = document.getElementById('addToDoForm');
+  var counter = 0;
 
   function createNewToDo() {
     const newToDoText = document.getElementById('newToDoText');
-    //console.log("hello2");
-    if (!newToDoText){ return; }
+    if (!newToDoText.value){ return; }
 
     toDos.push({
       title: newToDoText.value,
@@ -17,16 +17,25 @@ function onReady(){
   }
 
   function deleteChecked(){
-    for (i=0;i<toDos.length;i++){
-      //console.log(toDos[i]);
-      if (toDos[i].complete == "true"){console.log('oi')}
-    }
+    var i = (toDos.length -1);
+    while (i >= 0) {
+      if (toDos[i].complete == true){
+        toDos.splice(i, 1);
+      };
+      i--;
+    };
+    renderTheUI(toDos);
   }
 
-  function updateToDosCompleteStatus(){
-    console.log("updateToDosCompleteStatus",toDos);
+  function updateToDosCompleteStatus(idx){
+    //find todo id x, update complete (flip true/false) and renderTheUI
+    toDos.forEach(function(toDos){
+      if (toDos.id == idx){
+        toDos.complete = !toDos.complete;
+      };
+    });
 
-
+    renderTheUI(toDos);
   }
 
   function renderTheUI(toDos){
@@ -38,11 +47,15 @@ function onReady(){
       const newLi= document.createElement('li');
       const checkbox = document.createElement('input');
       checkbox.type = "checkbox";
-
+      checkbox.checked = toDo.complete;
+      checkbox.id = toDo.id;
       newLi.textContent = toDo.title;
-
       todoList.appendChild(newLi);
       newLi.appendChild(checkbox);
+      checkbox.addEventListener('click', event => {
+        event.preventDefault();
+        updateToDosCompleteStatus(checkbox.id);
+      })
     });
   }
 
@@ -56,28 +69,12 @@ function onReady(){
         deleteChecked();
   })
 
-  toDoList.addEventListener('click', event => {
-        event.preventDefault();
-        updateToDosCompleteStatus();
-  })
+//  toDoList.addEventListener('click', event => {
+//        event.preventDefault();
+//        updateToDosCompleteStatus(toDos.id);
+//  })
 }
 
 window.onload = function (){
   onReady();
 };
-
-
-''
-
-toDos.forEach(function(toDo){
-  const newLi= document.createElement('li');
-  const checkbox = document.createElement('input');
-  checkbox.type = "checkbox";
-  checked.Checked = toDo.complete
-
-  checkbox.id = toDo.id;
-
-  toDos.push({
-    title: newToDoText.value,
-    complete: false,
-    id: counter++
